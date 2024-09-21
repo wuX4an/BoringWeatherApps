@@ -1,12 +1,13 @@
-import requests
+import urllib.request
+import json
 
-url: str = "https://wttr.in?format=j1"
-response: str = requests.get(url)
-json: str = response.json()
+url = "https://wttr.in?format=j1"
+response = urllib.request.urlopen(url)
+data = json.loads(response.read())
 
-country: str = json['nearest_area'][0]['country'][0]['value']
-temperature: str = json['current_condition'][0]['temp_C']
-weather: str = json['current_condition'][0]['weatherDesc'][0]['value']
+country = data["nearest_area"][0]["country"][0]["value"]
+temperature = data["current_condition"][0]["temp_C"]
+weather = data["current_condition"][0]["weatherDesc"][0]["value"]
 
 print(f"Country: {country}")
 print(f"Weather: {weather}")
