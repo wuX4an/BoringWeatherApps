@@ -1,8 +1,5 @@
 #Python 
 env/
 
-#Go
-Go/
-
 #Bash
 jq-linux-amd64
