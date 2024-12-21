@@ -1,47 +1,16 @@
 use reqwest::blocking::get;
-use reqwest::Error;
-use serde::Deserialize;
+use serde_json::Value;
 
-#[derive(Deserialize)]
-struct WeatherResponse {
-    nearest_area: Vec<Area>,
-    current_condition: Vec<Condition>,
-}
-
-#[derive(Deserialize)]
-struct Area {
-    country: Vec<Country>,
-}
-
-#[derive(Deserialize)]
-struct Country {
-    value: String,
-}
-
-#[derive(Deserialize)]
-struct Condition {
-    weatherDesc: Vec<WeatherDesc>,
-    temp_C: String,
-}
-
-#[derive(Deserialize)]
-struct WeatherDesc {
-    value: String,
-}
-
-fn main() -> Result<(), Error> {
+fn main() {
     let url = "https://wttr.in?format=j1";
-    let response: WeatherResponse = get(url)?.json()?;
+    let response = get(url).unwrap().text().unwrap();
+    let data: Value = serde_json::from_str(&response).unwrap();
 
-    let country = &response.nearest_area[0].country[0].value;
-    let weather = &response.current_condition[0].weatherDesc[0].value;
-    let temperature = &response.current_condition[0].temp_C;
+    let country = &data["nearest_area"][0]["country"][0]["value"];
+    let temperature = &data["current_condition"][0]["temp_C"];
+    let weather = &data["current_condition"][0]["weatherDesc"][0]["value"];
 
     println!("Country: {}", country);
     println!("Weather: {}", weather);
     println!("Temperature: {}°C", temperature);
-
-    Ok(())
 }
-
-
