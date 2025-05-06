@@ -22,7 +22,7 @@ END
 ```
 
 
-## Programing Languajes:
+## Programing Languages:
 
 - ### **Python**
 - ### **JavaScript**
@@ -38,3 +38,4 @@ END
 - ### **C++**
 - ### **C#**
 - ### **Java**
+- ### **Swift**
